@@ -12,6 +12,7 @@ class HashTable
 {
 private:
      int N;
+     int count;
      Entry<K, V> **hash_table;
 
 public:
@@ -22,6 +23,8 @@ public:
 
           for (int i = 0; i < this->N; i++)
                hash_table[i] = NULL;
+          
+          count = 0;
      }
 
      HashTable(int N)
@@ -31,6 +34,8 @@ public:
 
           for (int i = 0; i < this->N; i++)
                hash_table[i] = NULL;
+          
+          count = 0;
      }
 
      /* hashcode string to int */
@@ -78,6 +83,9 @@ public:
                     temp = temp->get_next_entry();
                temp->set_next_entry(e);
           }
+          count++;
+          if(compute_load_factor() > 1.2)
+               resize(1);
      }
 
      /* replace e1 with e2 */
@@ -129,7 +137,12 @@ public:
                     temp2->set_next_entry(temp->get_next_entry());
                     delete temp;
                }
+               count--;
+               if(compute_load_factor() < 0.8)
+                    resize(0);
           }
+          else
+               cout << "no such data" << endl;
      }
 
      /* if grow = 1 increase the table
@@ -147,6 +160,9 @@ public:
                this->N = this->N / 2; //size decreases by 2
 
           hash_table = new Entry<K, V> *[this->N];
+          for (int i = 0; i < this->N; i++)
+               hash_table[i] = NULL;
+          count = 0;
 
           for (int i = 0; i < oldN; i++) {
                if (old_hash_table[i] != NULL) {
@@ -163,16 +179,7 @@ public:
 
      //computes the load factor of the hash table i.e. 'number of elements / number of buckets'
      double compute_load_factor() {
-          int count = 0;
-          Entry<K, V> * temp = NULL;
-          for (int i = 0; i < this->N; i++) {
-               temp = hash_table[i];
-               while (temp != NULL) {
-                    count++;
-                    temp = temp->get_next_entry();
-               }
-          }
-          return (count * 1.0) / this->N;
+          return (this->count * 1.0) / this->N;
      }
 
      int longest_chain_length() {
