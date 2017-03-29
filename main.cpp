@@ -43,7 +43,6 @@ int main()
           }
      }
 
-     bool resizeBool;
      Entry<keyType, valueType> * e2;
 
      //please update the below line if you change any of the data type so the user knows what to input
@@ -55,11 +54,10 @@ int main()
                << "\n\t1. insert"
                << "\n\t2. replace"
                << "\n\t3. remove"
-               << "\n\t4. resize"
-               << "\n\t5. compute load factor"
-               << "\n\t6. longest chain length"
-               << "\n\t7. print"
-               << "\n\t8. exit\n\t: ";
+               << "\n\t4. compute load factor"
+               << "\n\t5. longest chain length"
+               << "\n\t6. print"
+               << "\n\t7. exit\n\t: ";
           cin >> choice;
 
           switch (choice) {
@@ -87,17 +85,13 @@ int main()
                e = new Entry<keyType, valueType>(key, value);
                table_01.remove(e);
                break;
-          case 4: cout << "do you want to increase or decrease the size? (1 to increase / 0 to decrease): ";
-               cin >> resizeBool;
-               table_01.resize(resizeBool);
+          case 4: cout << "Load Factor: " << table_01.compute_load_factor() << endl;
                break;
-          case 5: cout << "Load Factor: " << table_01.compute_load_factor() << endl;
+          case 5: cout << "Longest Chain: " << table_01.longest_chain_length() << endl;
                break;
-          case 6: cout << "Longest Chain: " << table_01.longest_chain_length() << endl;
+          case 6: table_01.print();
                break;
-          case 7: table_01.print();
-               break;
-          case 8: return 0;
+          case 7: return 0;
           }
      } while (1);
 
