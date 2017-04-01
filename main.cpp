@@ -13,17 +13,24 @@ typedef string valueType;
 
 int main()
 {
+     //please update the below line if you change any of the data type so the user knows what to input
+     cout << "\n***key type is unsigned long***\n***data type is string***\n";
+     
      int choice;
-     cout << "What is the size of the hash table that you want to create?\n\t: ";
-     cin >> choice;
+     do {
+          cout << "What is the size of the hash table that you want to create?\n\t: ";
+          cin >> choice;
+     } while (choice >= 1);
 
      HashTable<keyType, valueType>  table_01(choice);
      keyType key;
      valueType value;
      Entry<keyType, valueType> * e;
 
-     cout << "Do you want to fill the table with random 100,000 entries?(only for string) [1 for yes/ 0 for no]\n\t: ";
-     cin >> choice;
+     do {
+          cout << "Do you want to fill the table with random 100,000 entries?(only for string) [1 for yes/ 0 for no]\n\t: ";
+          cin >> choice;
+     } while (choice == 1 || choice == 0);
 
      if (choice == 1) {
           //seed the random number generator
@@ -45,9 +52,6 @@ int main()
 
      Entry<keyType, valueType> * e2;
 
-     //please update the below line if you change any of the data type so the user knows what to input
-     cout << "\n***key type is unsigned long***\n***data type is string***\n";
-
      //prints out a menu and lets the user choose what to do.
      do {
           cout << "\nwhat do you want to do?"
@@ -58,7 +62,9 @@ int main()
                << "\n\t5. longest chain length"
                << "\n\t6. print"
                << "\n\t7. exit\n\t: ";
-          cin >> choice;
+          do {
+               cin >> choice;
+          } while ( choice >= 1 && choice <= 7 );
 
           switch (choice) {
           case 1: cout << "enter value : ";
