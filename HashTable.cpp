@@ -16,7 +16,36 @@ private:
      Entry<K, V> **hash_table;
 
 public:
-     HashTable()
+     HashTable();
+     HashTable(int N);
+     /* hashcode string to int */
+     int hashcode(string s);
+     /* hashcode int to int */
+     int hashcode(int i);
+     /* hashcode char to int */
+     int hashcode(char c);
+     /* hashcode long to int */
+     int hashcode(unsigned long ul);
+     /* basic compression function */
+     int compression(int hc);
+     
+     /* insert e into hash table */
+     void insert(Entry<K, V> * e);
+     /* replace e1 with e2 */
+     void replace(Entry<K, V> * e1, Entry<K, V> * e2);
+     /* find e and return */
+     Entry<K, V> * find(Entry<K, V> * e);
+     /* remove e from the table */
+     void remove(Entry<K, V> * e);
+     void resize(bool grow);
+     //computes the load factor of the hash table i.e. 'number of elements / number of buckets'
+     double compute_load_factor();
+     int longest_chain_length();
+     //prints the list with the index number preceding the first entry in the index
+     void print();
+};
+
+     HashTable<K, V>::HashTable()
      {
           this->N = 10000;
           hash_table = new Entry<K, V> *[this->N];
@@ -27,7 +56,7 @@ public:
           count = 0;
      }
 
-     HashTable(int N)
+     HashTable<K, V>::HashTable(int N)
      {
           this->N = N;
           hash_table = new Entry<K, V> *[this->N];
@@ -39,7 +68,7 @@ public:
      }
 
      /* hashcode string to int */
-     int hashcode(string s) {
+     int HashTable<K, V>::hashcode(string s) {
           int hc = 0;
           for (int i = 0; i < s.length(); i++)
                hc = 127 * hc + static_cast<int>(s[i]) % 16908799;
@@ -47,30 +76,30 @@ public:
      }
 
      /* hashcode int to int */
-     int hashcode(int i) {
+     int HashTable<K, V>::hashcode(int i) {
           int hc = i * 127;
           return hc;
      }
 
      /* hashcode char to int */
-     int hashcode(char c) {
+     int HashTable<K, V>::hashcode(char c) {
           int hc = 127 + static_cast<int>(c) % 16908799;
           return hc;
      }
 
      /* hashcode long to int */
-     int hashcode(unsigned long ul) {
+     int HashTable<K, V>::hashcode(unsigned long ul) {
           int hc = ul * 127;
           return hc;
      }
 
      /* basic compression function */
-     int compression(int hc) {
+     int HashTable<K, V>::compression(int hc) {
           return abs(((31 * hc) + 524287) % this->N);
      }
 
      /* insert e into hash table */
-     void insert(Entry<K, V> * e) {
+     void HashTable<K, V>::insert(Entry<K, V> * e) {
           e->set_next_entry(NULL);
           int hc = hashcode(e->key);
           int index = compression(hc);
@@ -89,13 +118,13 @@ public:
      }
 
      /* replace e1 with e2 */
-     void replace(Entry<K, V> * e1, Entry<K, V> * e2) {
+     void HashTable<K, V>::replace(Entry<K, V> * e1, Entry<K, V> * e2) {
           Entry<K, V>* temp = find(e1);
           temp->set_value(e2->get_value());
      }
 
      /* find e and return */
-     Entry<K, V> * find(Entry<K, V> * e) {
+     Entry<K, V> * HashTable<K, V>::find(Entry<K, V> * e) {
           int hc = hashcode(e->key);
           int index = compression(hc);
           Entry<K, V> * temp = hash_table[index];
@@ -113,7 +142,7 @@ public:
      }
 
      /* remove e from the table */
-     void remove(Entry<K, V> * e) {
+     void HashTable<K, V>::remove(Entry<K, V> * e) {
           int hc = hashcode(e->key);
           int index = compression(hc);
           Entry<K, V> * temp = hash_table[index];
@@ -148,7 +177,7 @@ public:
      /* if grow = 1 increase the table
       * otherwise decrease the table
       */
-     void resize(bool grow) {
+     void HashTable<K, V>::resize(bool grow) {
           Entry<K, V> ** old_hash_table = hash_table;
           Entry<K, V> * temp = NULL;
           Entry<K, V> * temp2 = NULL;
@@ -178,11 +207,11 @@ public:
      }
 
      //computes the load factor of the hash table i.e. 'number of elements / number of buckets'
-     double compute_load_factor() {
+     double HashTable<K, V>::compute_load_factor() {
           return (this->count * 1.0) / this->N;
      }
 
-     int longest_chain_length() {
+     int HashTable<K, V>::longest_chain_length() {
           int counter = 0, temp = 0;
           Entry<K, V> * tempP;
           for (int i = 0; i < N; i++) {
@@ -201,7 +230,7 @@ public:
      }
 
      //prints the list with the index number preceding the first entry in the index
-     void print() {
+     void HashTable<K, V>::print() {
           Entry<K, V>* temp = NULL;
           for (int i = 0; i < this->N; i++) {
                temp = hash_table[i];
@@ -214,4 +243,3 @@ public:
                }
           }
      }
-};
