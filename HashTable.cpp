@@ -1,8 +1,6 @@
 #include <iostream>
 #include <cstddef>
 #include <string>
-#include <cmath>
-#include <ctime>
 #include <cstdlib>
 #include "Entry.cpp"
 using namespace std;
@@ -172,7 +170,7 @@ public:
                     delete temp;
                }
                count--;
-               if(compute_load_factor() < 0.8)
+               if(compute_load_factor() < 0.5)
                     resize(0);
           }
           else
