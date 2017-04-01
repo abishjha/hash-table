@@ -18,6 +18,7 @@ private:
 public:
      HashTable();
      HashTable(int N);
+     
      /* hashcode string to int */
      int hashcode(string s);
      /* hashcode int to int */
@@ -37,14 +38,17 @@ public:
      Entry<K, V> * find(Entry<K, V> * e);
      /* remove e from the table */
      void remove(Entry<K, V> * e);
+     /* grow = 1 to increase the table by a factor of 2; grow = 0 to decrease the table by a factor of 2 */
      void resize(bool grow);
-     //computes the load factor of the hash table i.e. 'number of elements / number of buckets'
+     /* computes the load factor of the hash table i.e. 'number of elements / number of buckets' */
      double compute_load_factor();
+     /* returns the length of the longest chain */
      int longest_chain_length();
-     //prints the list with the index number preceding the first entry in the index
+     /* prints the list with the index number preceding the first entry in the index */
      void print();
 };
-
+     
+     template<typename K, typename V>
      HashTable<K, V>::HashTable()
      {
           this->N = 10000;
@@ -55,7 +59,8 @@ public:
           
           count = 0;
      }
-
+     
+     template<typename K, typename V>
      HashTable<K, V>::HashTable(int N)
      {
           this->N = N;
@@ -66,39 +71,39 @@ public:
           
           count = 0;
      }
-
-     /* hashcode string to int */
+   
+     template<typename K, typename V>
      int HashTable<K, V>::hashcode(string s) {
           int hc = 0;
           for (int i = 0; i < s.length(); i++)
                hc = 127 * hc + static_cast<int>(s[i]) % 16908799;
           return hc;
      }
-
-     /* hashcode int to int */
+  
+     template<typename K, typename V>
      int HashTable<K, V>::hashcode(int i) {
           int hc = i * 127;
           return hc;
      }
 
-     /* hashcode char to int */
+     template<typename K, typename V>
      int HashTable<K, V>::hashcode(char c) {
           int hc = 127 + static_cast<int>(c) % 16908799;
           return hc;
      }
 
-     /* hashcode long to int */
+     template<typename K, typename V>
      int HashTable<K, V>::hashcode(unsigned long ul) {
           int hc = ul * 127;
           return hc;
      }
 
-     /* basic compression function */
+     template<typename K, typename V>
      int HashTable<K, V>::compression(int hc) {
           return abs(((31 * hc) + 524287) % this->N);
      }
-
-     /* insert e into hash table */
+  
+     template<typename K, typename V>
      void HashTable<K, V>::insert(Entry<K, V> * e) {
           e->set_next_entry(NULL);
           int hc = hashcode(e->key);
@@ -116,14 +121,14 @@ public:
           if(compute_load_factor() > 1.2)
                resize(1);
      }
-
-     /* replace e1 with e2 */
+  
+     template<typename K, typename V>
      void HashTable<K, V>::replace(Entry<K, V> * e1, Entry<K, V> * e2) {
           Entry<K, V>* temp = find(e1);
           temp->set_value(e2->get_value());
      }
 
-     /* find e and return */
+     template<typename K, typename V>
      Entry<K, V> * HashTable<K, V>::find(Entry<K, V> * e) {
           int hc = hashcode(e->key);
           int index = compression(hc);
@@ -140,8 +145,8 @@ public:
                     return temp;
           }
      }
-
-     /* remove e from the table */
+ 
+     template<typename K, typename V>
      void HashTable<K, V>::remove(Entry<K, V> * e) {
           int hc = hashcode(e->key);
           int index = compression(hc);
@@ -174,9 +179,7 @@ public:
                cout << "no such data" << endl;
      }
 
-     /* if grow = 1 increase the table
-      * otherwise decrease the table
-      */
+     template<typename K, typename V>
      void HashTable<K, V>::resize(bool grow) {
           Entry<K, V> ** old_hash_table = hash_table;
           Entry<K, V> * temp = NULL;
@@ -205,12 +208,13 @@ public:
           }
           delete[] old_hash_table;
      }
-
-     //computes the load factor of the hash table i.e. 'number of elements / number of buckets'
+  
+     template<typename K, typename V>
      double HashTable<K, V>::compute_load_factor() {
           return (this->count * 1.0) / this->N;
      }
-
+     
+     template<typename K, typename V>
      int HashTable<K, V>::longest_chain_length() {
           int counter = 0, temp = 0;
           Entry<K, V> * tempP;
@@ -228,8 +232,8 @@ public:
           }
           return counter;
      }
-
-     //prints the list with the index number preceding the first entry in the index
+   
+     template<typename K, typename V>
      void HashTable<K, V>::print() {
           Entry<K, V>* temp = NULL;
           for (int i = 0; i < this->N; i++) {
