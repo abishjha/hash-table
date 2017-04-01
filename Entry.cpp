@@ -1,6 +1,8 @@
 template <typename KEY, typename VALUE>
 class Entry
 {
+     template<typename K, typename V> friend class HashTable;
+     
 private:
      KEY key;
      VALUE value;
