@@ -1,8 +1,6 @@
 template <typename KEY, typename VALUE>
 class Entry
 {
-     template<typename K, typename V> friend class HashTable;
-
 private:
      KEY key;
      VALUE value;
@@ -11,12 +9,7 @@ private:
 public:
      /*** Constructors ***/
      Entry(void) : key(KEY()), value(VALUE()), next_entry(NULL) {}
-     Entry(KEY key, VALUE value)
-     {
-          this->key = key;
-          this->value = value;
-          this->next_entry = NULL;
-     }
+     Entry(KEY key, VALUE value) : key(key), value(value), next_entry(NULL) {}
      Entry(KEY key, VALUE value, Entry * next) : key(key), value(value), next_entry(next) {}
 
      //accessors
