@@ -81,7 +81,7 @@ public:
      template<typename K, typename V>
      int HashTable<K, V>::hashcode(int i) {
           int hc = i * 127;
-          return hc;
+          return (hc << 2);
      }
 
      template<typename K, typename V>
@@ -93,7 +93,7 @@ public:
      template<typename K, typename V>
      int HashTable<K, V>::hashcode(unsigned long ul) {
           int hc = ul * 127;
-          return hc;
+          return (hc << 3);
      }
 
      template<typename K, typename V>
