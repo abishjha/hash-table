@@ -2,7 +2,7 @@
 #include <cstddef>
 #include <string>
 #include <cstdlib>
-#include "Entry.h"
+#include "Entry.cpp"
 using namespace std;
 
 template<typename K, typename V>
